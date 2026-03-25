@@ -55,6 +55,25 @@ describe('Todo API (with auth middleware)', () => {
     expect(db.completed).toBe(false);
   });
 
+  test('POST /api/todo → 500 on DB error', async () => {
+    const user = await User.create({
+      email: 'post-error@example.com',
+      password: await bcrypt.hash('pass', 8)
+    });
+    const token = generateToken(user.id);
+
+    const createSpy = jest.spyOn(Todo, 'create').mockRejectedValue(new Error('DB create failed'));
+
+    const res = await request(app)
+      .post('/api/todo')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ text: 'Buy milk' });
+
+    expect(res.status).toBe(500);
+
+    createSpy.mockRestore();
+  });
+
   test("GET /api/todo → lists current user's todos", async () => {
     const user = await User.create({
       email: 'jane@example.com',
@@ -84,6 +103,21 @@ describe('Todo API (with auth middleware)', () => {
     expect(fields).not.toContain('user_id'); // controller hides user_id on list
     const texts = res.body.map((t) => t.text);
     expect(texts).toEqual(expect.arrayContaining(['Task A', 'Task B']));
+  });
+
+  test('GET /api/todo → 500 on DB error', async () => {
+    const user = await User.create({
+      email: 'getall-error@example.com',
+      password: await bcrypt.hash('pass', 8)
+    });
+    
+    const token = generateToken(user.id);
+    const findAllSpy = jest.spyOn(Todo, 'findAll').mockRejectedValue(new Error('DB get all failed'));
+    const res = await request(app).get('/api/todo').set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(500);
+
+    findAllSpy.mockRestore();
   });
 
   test('PATCH /api/todo/:id → updates a todo', async () => {
@@ -169,6 +203,26 @@ describe('Todo API (with auth middleware)', () => {
     expect(res.status).toBe(200);
     expect(res.body).toEqual(expectedTodos);
     expect(res.body).toHaveLength(2);
+
+    findAllSpy.mockRestore();
+  });
+
+  test('GET /api/todo/search → 500 on DB error', async () => {
+    const user = await User.create({
+      email: 'search-error@example.com',
+      password: await bcrypt.hash('pass', 8)
+    });
+    const token = generateToken(user.id);
+
+    const findAllSpy = jest
+      .spyOn(Todo, 'findAll')
+      .mockRejectedValue(new Error('DB search failed'));
+
+    const res = await request(app)
+      .get('/api/todo/search?q=rapport')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(500);
 
     findAllSpy.mockRestore();
   });
