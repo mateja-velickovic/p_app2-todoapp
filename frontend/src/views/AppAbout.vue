@@ -13,7 +13,7 @@
       >
         Cette application offre une interface simple et intuitive pour la gestion de tâches. Chaque
         tâche peut être marquée comme "complétée" une fois terminée ou encore supprimée.
-        L'application permet également gérer le profile de l'utilisateur connecté.
+        L'application permet également gérer le profil de l'utilisateur connecté.
       </p>
     </div>
   </main>
