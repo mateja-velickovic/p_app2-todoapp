@@ -154,17 +154,21 @@ describe('Todo API (with auth middleware)', () => {
 
     const mockedTodos = [
       { id: 1, text: 'Continuer le rapport', completed: false, date: '2026-03-25' },
-      { id: 2, text: 'Rendre le rapport', completed: false, date: '2026-03-25' }
+      { id: 2, text: 'Rendre le rapport', completed: false, date: '2026-03-25' },
+      { id: 3, text: 'Terminer le projet', completed: false, date: '2026-03-25' }
     ];
 
-    const findAllSpy = jest.spyOn(Todo, 'findAll').mockResolvedValue(mockedTodos);
+    const expectedTodos = [mockedTodos[0], mockedTodos[1]];
+
+    const findAllSpy = jest.spyOn(Todo, 'findAll').mockResolvedValue(expectedTodos);
 
     const res = await request(app)
       .get('/api/todo/search?q=rapport')
       .set('Authorization', `Bearer ${token}`);
 
     expect(res.status).toBe(200);
-    expect(res.body).toEqual(mockedTodos);
+    expect(res.body).toEqual(expectedTodos);
+    expect(res.body).toHaveLength(2);
 
     findAllSpy.mockRestore();
   });
