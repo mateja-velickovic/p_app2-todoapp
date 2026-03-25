@@ -62,7 +62,7 @@ const onSubmit = async (formValues: Record<string, any>) => {
         <div class="flex items-center justify-between">
           <div class="text-sm">
             <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-              >Mot de passe oublier ?</a
+              >Mot de passe oublié ?</a
             >
           </div>
         </div>
