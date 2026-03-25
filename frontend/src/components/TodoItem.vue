@@ -51,7 +51,7 @@ const todoCompletedLocal = computed({
   <div
     :class="
       todoCompletedLocal
-        ? 'border-red-500 dark:border-red-700'
+        ? 'border-red-500 dark:border-red-700 opacity-50'
         : 'border-green-500 dark:border-green-700'
     "
     class="w-full flex flex-col items-center justify-between p-2 text-sm leading-6 rounded-md border-2 bg-gray-200 dark:bg-gray-700 mb-2"

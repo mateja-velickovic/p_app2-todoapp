@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watch } from 'vue';
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -82,6 +83,18 @@ const editor = useEditor({
     })
   ]
 });
+
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (!editor.value) return;
+    const nextValue = newValue || '';
+    const currentValue = editor.value.getHTML();
+    if (nextValue !== currentValue) {
+      editor.value.commands.setContent(nextValue, false);
+    }
+  }
+);
 </script>
 
 <template>
