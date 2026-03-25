@@ -144,4 +144,28 @@ describe('Todo API (with auth middleware)', () => {
       .set('Authorization', 'Bearer invalid.token.here');
     expect(res.status).toBe(403);
   });
+
+  test('GET /api/todo/search → searches todos by text', async () => {
+    const user = await User.create({
+      email: 'search@example.com',
+      password: await bcrypt.hash('pass', 8)
+    });
+    const token = generateToken(user.id);
+
+    const mockedTodos = [
+      { id: 1, text: 'Continuer le rapport', completed: false, date: '2026-03-25' },
+      { id: 2, text: 'Rendre le rapport', completed: false, date: '2026-03-25' }
+    ];
+
+    const findAllSpy = jest.spyOn(Todo, 'findAll').mockResolvedValue(mockedTodos);
+
+    const res = await request(app)
+      .get('/api/todo/search?q=rapport')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual(mockedTodos);
+
+    findAllSpy.mockRestore();
+  });
 });
