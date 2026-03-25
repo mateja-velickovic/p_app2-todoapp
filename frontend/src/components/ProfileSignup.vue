@@ -41,7 +41,7 @@ const onSubmit = async (formValues: Record<string, any>) => {
       typeof err === 'string' ? err : err.errorMsg || err.error || err.message || '';
 
     if (/conflict|exist|existe|deja|déjà/i.test(rawMsg)) {
-      errorMsg.value = 'Un compte avec cet email existe déjà !';
+      errorMsg.value = 'Cet email est déjà utilisé.';
     } else {
       errorMsg.value = rawMsg || 'Une erreur est survenue';
     }
@@ -63,7 +63,7 @@ const onSubmit = async (formValues: Record<string, any>) => {
       <p v-if="errorMsg">
         <span class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3">
           <span class="inline w-3 h-3 me-3 bg-red-500 rounded-full"></span>
-          {{ errorMsg }}</span
+          {{ errorMsg }} &nbsp; <a class="font-medium text-primary-600 hover:underline dark:text-primary-500" href="/login">Connectez-vous.</a></span
         >
       </p>
       <Form @submit="onSubmit" :validation-schema="schema" class="space-y-4 md:space-y-6">
