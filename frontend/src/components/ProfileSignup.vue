@@ -36,7 +36,15 @@ const onSubmit = async (formValues: Record<string, any>) => {
       router.push('/login');
     });
   } catch (e) {
-    errorMsg.value = (e as { error: string }).error || 'An error occurred';
+    const err = e as { error?: string; message?: string; errorMsg?: string } | string;
+    const rawMsg =
+      typeof err === 'string' ? err : err.errorMsg || err.error || err.message || '';
+
+    if (/conflict|exist|existe|deja|déjà/i.test(rawMsg)) {
+      errorMsg.value = 'Un compte avec cet email existe déjà !';
+    } else {
+      errorMsg.value = rawMsg || 'Une erreur est survenue';
+    }
     loading.value = false;
   }
 };
