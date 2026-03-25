@@ -17,7 +17,7 @@ const TodoController = {
       })
       .catch((error) => {
         console.error('ADD TODO: ', error);
-        return res.status(500);
+        return res.status(500).json({ error: 'Internal server error' });
       });
   },
   getAllTodo: async (req, res) => {
@@ -33,12 +33,12 @@ const TodoController = {
         if (result) {
           return res.status(200).json(result);
         } else {
-          return res.status(404);
+          return res.status(404).json({ error: 'Not found' });
         }
       })
       .catch((error) => {
         console.error('GET ALL TODO: ', error);
-        return res.status(500);
+        return res.status(500).json({ error: 'Internal server error' });
       });
   },
   editTodo: async (req, res) => {
@@ -59,10 +59,10 @@ const TodoController = {
         })
         .catch((error) => {
           console.error('UPDATE TODO: ', error);
-          return res.status(500);
+          return res.status(500).json({ error: 'Internal server error' });
         });
     } else {
-      return res.status(404);
+      return res.status(404).json({ error: 'Not found' });
     }
   },
   deleteTodo: (req, res) => {
@@ -79,7 +79,7 @@ const TodoController = {
       })
       .catch((error) => {
         console.error('DELETE TODO: ', error);
-        return res.status(500);
+        return res.status(500).json({ error: 'Internal server error' });
       });
   },
   getSearchTodo: async (req, res) => {
@@ -101,12 +101,12 @@ const TodoController = {
         if (result) {
           return res.status(200).json(result);
         } else {
-          return res.status(404);
+          return res.status(404).json({ error: 'Not found' });
         }
       })
       .catch((error) => {
         console.error('SEARCH TODO: ', error);
-        return res.status(500);
+        return res.status(500).json({ error: 'Internal server error' });
       });
   }
 };

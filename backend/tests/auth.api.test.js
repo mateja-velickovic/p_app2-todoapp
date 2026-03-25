@@ -74,4 +74,23 @@ describe('Auth Controller', () => {
     expect(res.status).toBe(404);
     expect(res.body.message).toBe("Ce compte n'existe pas !");
   });
+
+  test('POST /api/auth → catch on bad login returns 400', async () => {
+    const dbError = new Error('forced login error');
+    const findOneSpy = jest
+      .spyOn(User, 'findOne')
+      .mockRejectedValueOnce(dbError);
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const res = await request(app)
+      .post('/api/auth')
+      .send({ email: uniqueEmail('baduser'), password: 'badpass' });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toBeNull();
+    expect(consoleSpy).toHaveBeenCalledWith('LOGIN USER: ', dbError);
+
+    findOneSpy.mockRestore();
+    consoleSpy.mockRestore();
+  });
 });
