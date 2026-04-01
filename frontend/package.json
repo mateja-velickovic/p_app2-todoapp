@@ -11,8 +11,8 @@
     "e2e:run": "start-server-and-test 'vite build --mode test && vite preview --mode test --port 5173' http://localhost:5173 'cypress run --browser chrome --e2e'",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "lint": "eslint . --fix --ignore-pattern .gitignore",
-    "lint2": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "lint": "eslint . --ignore-pattern .gitignore",
+    "lint:fix": "eslint . --fix --ignore-pattern .gitignore",
     "format": "prettier --write src/",
     "lint-help": "eslint --help"
   },
