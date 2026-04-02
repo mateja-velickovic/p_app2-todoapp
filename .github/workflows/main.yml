@@ -23,7 +23,7 @@ jobs:
           cache-dependency-path: backend/package-lock.json
 
       - name: Setup Backend
-        run: cd backend && npm ci --prefer-offline
+        run: cd backend && npm install --prefer-offline
 
       - name: Package Audit
         run: cd backend && npm audit --audit-level critical
