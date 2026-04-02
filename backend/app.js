@@ -3,17 +3,20 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 
-// Load env vars – root .env first (shared DB/infra vars), then backend/.env (app-specific overrides)
-try {
-  process.loadEnvFile('../.env');
-} catch {
-  console.error('Root .env file missing');
-  process.exit(1);
-}
-try {
-  process.loadEnvFile('./.env');
-} catch {
-  /* backend/.env is optional */
+const isTest = process.env.NODE_ENV === 'test';
+
+if (!isTest) {
+  try {
+    process.loadEnvFile('../.env');
+  } catch {
+    console.error('Root .env file missing');
+    process.exit(1);
+  }
+  try {
+    process.loadEnvFile('./.env');
+  } catch {
+    /* backend/.env is optional */
+  }
 }
 
 const { sequelize: db } = require('./config/database');
@@ -41,7 +44,7 @@ function createApp() {
   app.use(router);
 
   // TEST-ONLY helper: reset DB between specs
-  if (process.env.NODE_ENV === 'test') {
+  if (isTest) {
     const testApi = require('./routes/test.api');
     app.use('/test', testApi);
   }
