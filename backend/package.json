@@ -7,7 +7,7 @@
     "start:e2e": "cross-env NODE_ENV=test node app.js",
     "test:dev": "jest --runInBand --watch",
     "test:ci": "jest --coverage --ci --silent",
-    "lint": "eslint . --fix --ignore-pattern .gitignore",
+    "lint": "eslint . --ignore-pattern .gitignore",
     "lint:fix": "eslint . --fix --ignore-pattern .gitignore",
     "format": "prettier --write ."
   },
