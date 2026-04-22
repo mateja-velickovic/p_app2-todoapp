@@ -32,6 +32,18 @@ runs:
     - name: Connect Fortinet VPN
       shell: bash
       run: |
+        if [ -z "${{ inputs.host }}" ]; then
+          echo "VPN host is empty. Check secret VPN_IP."
+          exit 1
+        fi
+        if [ -z "${{ inputs.username }}" ]; then
+          echo "VPN username is empty. Check secret VPN_USERNAME."
+          exit 1
+        fi
+        if [ -z "${{ inputs.password }}" ]; then
+          echo "VPN password is empty. Check secret VPN_PASSWORD."
+          exit 1
+        fi
         echo "${{ inputs.password }}" \
         | sudo openconnect \
             --protocol=fortinet \
