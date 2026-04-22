@@ -76,3 +76,26 @@ jobs:
           username: "${{ secrets.VPN_USERNAME }}"
           password: "${{ secrets.VPN_PASSWORD }}"
           ping_host: ${{ secrets.SSH_TEST_HOST }}
+
+      - name: Sending docker-compose.yaml to the staging server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_TEST_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "./docker-compose.yaml"
+          target: ~/todoapp/
+          port: 22
+          
+      - name: Deploying the application on the staging server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_TEST_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: |
+            cd ~/todoapp
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
