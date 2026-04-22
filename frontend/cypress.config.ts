@@ -4,7 +4,7 @@ export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:5173', // your frontend
     env: {
-      BACKEND_URL: 'http://localhost:3000', // your API
+      BACKEND_URL: 'http://backend:3000', // your API
       USER_EMAIL: "john@example.com",
       USER_PASSWORD: "GRY0xa7jRRPfLy9XxC3v",
     },
