@@ -61,4 +61,4 @@ networks:
 
 volumes:
   db_data:
-    driver: localocal
+    driver: local
