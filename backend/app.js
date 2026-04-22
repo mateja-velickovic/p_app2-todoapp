@@ -1,21 +1,20 @@
-// app.js
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const cookieParser = require('cookie-parser');
 
 const isTest = process.env.NODE_ENV === 'test';
 
 if (!isTest) {
-  try {
-    process.loadEnvFile('../.env');
-  } catch {
-    console.error('Root .env file missing');
-    process.exit(1);
+  const rootEnvPath = path.resolve(__dirname, '../.env');
+  const backendEnvPath = path.resolve(__dirname, './.env');
+
+  if (fs.existsSync(rootEnvPath)) {
+    process.loadEnvFile(rootEnvPath);
   }
-  try {
-    process.loadEnvFile('./.env');
-  } catch {
-    /* backend/.env is optional */
+
+  if (fs.existsSync(backendEnvPath)) {
+    process.loadEnvFile(backendEnvPath);
   }
 }
 
