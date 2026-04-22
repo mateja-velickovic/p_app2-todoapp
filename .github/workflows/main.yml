@@ -49,3 +49,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build backend image
+        run: docker build -t ghcr.io/${{ github.repository }}/todoapp-backend:latest ./backend
+
+      - name: Push backend image to registry
+        run: docker push ghcr.io/${{ github.repository }}/todoapp-backend:latest
