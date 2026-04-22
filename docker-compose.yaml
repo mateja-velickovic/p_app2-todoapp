@@ -21,7 +21,7 @@ services:
     networks:
       - back_network
 
-  backend:
+  api:
     image: ghcr.io/mateja-velickovic/todoapp-backend:latest
     container_name: todoapp-backend
     hostname: backend
@@ -39,7 +39,7 @@ services:
       - front_network
       - back_network
 
-  frontend:
+  web:
     image: ghcr.io/mateja-velickovic/todoapp-frontend:latest
     container_name: todoapp-frontend
     hostname: frontend
