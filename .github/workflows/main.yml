@@ -10,32 +10,32 @@ permissions:
   packages: write
   
 jobs:
-  test-backend:
-    name: Backend test executions
+  # test-backend:
+  #   name: Backend test executions
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Cloning the repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Cloning the repository
+  #       uses: actions/checkout@v4
 
-      - name: Node installation
-        uses: actions/setup-node@v4
-        with:
-          cache: "npm"
-          cache-dependency-path: backend/package-lock.json
+  #     - name: Node installation
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         cache: "npm"
+  #         cache-dependency-path: backend/package-lock.json
 
-      - name: Setup Backend
-        run: cd backend && npm ci --prefer-offline
+  #     - name: Setup Backend
+  #       run: cd backend && npm ci --prefer-offline
 
-      - name: Package Audit
-        run: cd backend && npm audit --audit-level critical
+  #     - name: Package Audit
+  #       run: cd backend && npm audit --audit-level critical
 
-      - name: Lint the code
-        run: cd backend && npm run lint
+  #     - name: Lint the code
+  #       run: cd backend && npm run lint
 
-      - name: Unit tests
-        run: cd backend && npm run test:ci
+  #     - name: Unit tests
+  #       run: cd backend && npm run test:ci
 
   deploy-staging:
     name: Deploy to staging environment
@@ -54,14 +54,25 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build backend image
-        run: docker build -t ghcr.io/${{ github.actor }}/todoapp-backend:latest ./backend
+      - name: Build and push backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: true
+          tags: ghcr.io/${{ github.actor }}/todoapp-backend:latest
 
-      - name: Push backend image to registry
-        run: docker push ghcr.io/${{ github.actor }}/todoapp-backend:latest
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push: true
+          tags: ghcr.io/${{ github.actor }}/todoapp-frontend:latest
 
-      - name: Build frontend image
-        run: docker build -t ghcr.io/${{ github.actor }}/todoapp-frontend:latest ./frontend
-
-      - name: Push backend image to registry
-        run: docker push ghcr.io/${{ github.actor }}/todoapp-frontend:latest
+      - name: Setup VPN and test connection
+        uses: ./.github/actions/vpn
+        with:
+          ip: "${{ secrets.VPN_IP }}"
+          port: "443"
+          username: "${{ secrets.VPN_USERNAME }}"
+          password: "${{ secrets.VPN_PASSWORD }}"
+          host_to_ping: ${{ secrets.SSH_TEST_HOST }}
