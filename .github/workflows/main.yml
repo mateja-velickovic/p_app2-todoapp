@@ -71,8 +71,8 @@ jobs:
       - name: Setup VPN and test connection
         uses: ./.github/actions/vpn
         with:
-          host: "${{ secrets.VPN_IP }}"
+          ip: "${{ secrets.VPN_IP }}"
           port: "443"
           username: "${{ secrets.VPN_USERNAME }}"
           password: "${{ secrets.VPN_PASSWORD }}"
-          ping_host: "${{ secrets.SSH_TEST_HOST }}"
+          host_to_ping: ${{ secrets.SSH_TEST_HOST }}
