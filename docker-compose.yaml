@@ -45,11 +45,11 @@ services:
     hostname: frontend
     ports:
       - "5173:5173"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+    # volumes:
+    #   - ./frontend:/app
+    #   - /app/node_modules
     depends_on:
-      - backend
+      - api
     networks:
       - front_network
 
