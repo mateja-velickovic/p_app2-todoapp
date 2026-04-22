@@ -51,7 +51,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build backend image
-        run: docker build -t ghcr.io/${{ github.repository }}/todoapp-backend:latest ./backend
+        run: docker build -t ghcr.io/matejavelickovic/todoapp-backend:latest ./backend
 
       - name: Push backend image to registry
-        run: docker push ghcr.io/${{ github.repository }}/todoapp-backend:latest
+        run: docker push ghcr.io/matejavelickovic/todoapp-backend:latest
