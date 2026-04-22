@@ -47,26 +47,26 @@ jobs:
       - name: Cloning the repository
         uses: actions/checkout@v4
 
-      - name: Login to Docker Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Login to Docker Registry
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push backend image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./backend
-          push: true
-          tags: ghcr.io/${{ github.actor }}/todoapp-backend:latest
+      # - name: Build and push backend image
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./backend
+      #     push: true
+      #     tags: ghcr.io/${{ github.actor }}/todoapp-backend:latest
 
-      - name: Build and push frontend image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./frontend
-          push: true
-          tags: ghcr.io/${{ github.actor }}/todoapp-frontend:latest
+      # - name: Build and push frontend image
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./frontend
+      #     push: true
+      #     tags: ghcr.io/${{ github.actor }}/todoapp-frontend:latest
 
       - name: Setup VPN and test connection
         uses: ./.github/actions/vpn
