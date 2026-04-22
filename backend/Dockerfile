@@ -9,4 +9,7 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+ENV NODE_ENV=production
+
+# node app.js
+CMD ["npm", "start:ci"]

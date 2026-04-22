@@ -61,7 +61,7 @@ jobs:
         run: docker push ghcr.io/${{ github.actor }}/todoapp-backend:latest
 
       - name: Build frontend image
-        run: docker build -t ghcr.io/${{ github.actor }}/todoapp-frontend:latest ./backend
+        run: docker build -t ghcr.io/${{ github.actor }}/todoapp-frontend:latest ./frontend
 
       - name: Push backend image to registry
         run: docker push ghcr.io/${{ github.actor }}/todoapp-frontend:latest
