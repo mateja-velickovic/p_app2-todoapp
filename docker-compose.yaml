@@ -3,7 +3,7 @@ services:
     image: mysql:lts
     container_name: mysql
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
@@ -17,6 +17,8 @@ services:
       timeout: 5s
       retries: 12
       start_period: 20s
+    networks:
+      - back_network
 
   backend:
     image: ghcr.io/mateja-velickovic/todoapp-backend:latest
@@ -31,6 +33,9 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    networks:
+      - front_network
+      - back_network
 
   frontend:
     image: ghcr.io/mateja-velickovic/todoapp-frontend:latest
@@ -40,6 +45,16 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - front_network
+
+networks:
+  front_network:
+    driver: bridge
+  back_network:
+    driver: bridge
 
 volumes:
   db_data:
