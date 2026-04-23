@@ -1,0 +1,22 @@
+{
+	# Disable admin API (not needed with static Caddyfile)
+	admin off
+
+	# Email used for Let's Encrypt account registration and expiry alerts.
+	# Set CADDY_EMAIL in your .env for production. Defaults to empty (no email).
+	email {$CADDY_EMAIL:}
+}
+
+{$DOMAIN:localhost} {
+	encode gzip zstd
+
+	# API routes
+	handle /api/* {
+		reverse_proxy api:3000
+	}
+
+	# Everything else to the Vue.js SPA (Nginx container)
+	handle {
+		reverse_proxy web:5147
+	}
+}
