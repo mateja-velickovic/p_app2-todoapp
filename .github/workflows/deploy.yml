@@ -68,6 +68,6 @@ jobs:
           port: 22
           script: |
             cd ~/todoapp
-            docker compose down
-            docker compose pull
-            docker compose up -d
+            docker compose -f docker-compose.prod.yaml down
+            docker compose -f docker-compose.prod.yaml pull
+            docker compose -f docker-compose.prod.yaml up -d
