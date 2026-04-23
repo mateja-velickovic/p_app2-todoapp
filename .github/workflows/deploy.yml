@@ -1,4 +1,4 @@
-name: TodoApp | Developpment Workflow
+name: TodoApp | Deploy Workflow
 
 on:
   push:
@@ -10,33 +10,7 @@ permissions:
   packages: write
   
 jobs:
-  test-backend:
-    name: Backend test executions
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Cloning the repository
-        uses: actions/checkout@v4
-
-      - name: Node installation
-        uses: actions/setup-node@v4
-        with:
-          cache: "npm"
-          cache-dependency-path: backend/package-lock.json
-
-      - name: Setup Backend
-        run: cd backend && npm ci --prefer-offline
-
-      - name: Package Audit
-        run: cd backend && npm audit --audit-level critical
-
-      - name: Lint the code
-        run: cd backend && npm run lint
-
-      - name: Unit tests
-        run: cd backend && npm run test:ci
-
+  
   deploy-staging:
     name: Deploy to staging environment
 
