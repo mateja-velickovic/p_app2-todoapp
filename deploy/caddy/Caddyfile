@@ -17,6 +17,6 @@
 
 	# Everything else to the Vue.js SPA (Nginx container)
 	handle {
-		reverse_proxy web:5147
+		reverse_proxy web:8080
 	}
 }

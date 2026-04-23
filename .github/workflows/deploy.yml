@@ -49,7 +49,7 @@ jobs:
           password: "${{ secrets.VPN_PASSWORD }}"
           ping_host: ${{ secrets.SSH_TEST_HOST }}
 
-      - name: Sending docker-compose.yaml to the staging server
+      - name: Sending deployment files to the staging server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_TEST_HOST }}

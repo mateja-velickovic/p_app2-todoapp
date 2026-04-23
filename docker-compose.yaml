@@ -31,7 +31,6 @@ services:
       - .env
     environment:
       DB_HOST: mysql
-      PORT: 3000
       DB_PORT: 3306
     ports:
       - "3000:3000"
@@ -39,7 +38,7 @@ services:
       mysql:
         condition: service_healthy
     networks:
-      - app_network
+      - front_network
       - back_network
 
   web:
@@ -47,37 +46,22 @@ services:
     container_name: todoapp-frontend
     restart: unless-stopped
     hostname: frontend
-    depends_on:
-      - api
-    networks:
-      - app_network
-
-  caddy:
-    image: caddy:2-alpine
-    container_name: todoapp-proxy
-    restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./deploy/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
-    environment:
-      DOMAIN: ${DOMAIN:-localhost}
+      - "5173:5173"
+    # volumes:
+    #   - ./frontend:/app
+    #   - /app/node_modules
     depends_on:
-      - web
       - api
     networks:
-      - app_network
+      - front_network
 
 networks:
-  app_network:
+  front_network:
     driver: bridge
   back_network:
     driver: bridge
 
 volumes:
   db_data:
-  caddy_data:
-  caddy_config:
+    driver: local
