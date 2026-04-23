@@ -27,6 +27,8 @@ services:
     container_name: todoapp-backend
     restart: unless-stopped
     hostname: backend
+    env_file:
+      - .env
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
@@ -48,6 +50,8 @@ services:
     container_name: todoapp-frontend
     restart: unless-stopped
     hostname: frontend
+    ports:
+      - "5173:5173"
     depends_on:
       - api
     networks:
