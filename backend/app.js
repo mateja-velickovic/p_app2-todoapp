@@ -34,7 +34,7 @@ function createApp() {
   app = express();
 
   // Serve frontend static files (useful in dev/prod, skipped in tests if you want)
-  app.use(express.static(path.join(__dirname, '../dist')));
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
   app.use(express.json());
   app.use(cookieParser());
