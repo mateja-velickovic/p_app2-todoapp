@@ -31,7 +31,7 @@ jobs:
         run: cd backend && npm run lint
 
       - name: Unit tests
-        run: cd backend && npm run test:ci
+        run: cd backend && npx jest --coverage
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
