@@ -22,3 +22,5 @@ RUN npm run build
 # CMD ["nginx", "-g", "daemon off;"]
 
 EXPOSE 5173
+
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
