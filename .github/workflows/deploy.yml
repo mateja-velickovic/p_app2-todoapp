@@ -55,7 +55,7 @@ jobs:
           host: ${{ secrets.SSH_TEST_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "./docker-compose.prod.yaml,./deploy/**"
+          source: "./docker-compose.staging.yaml" # ,./deploy/**
           target: ~/todoapp/
           port: 22
 
@@ -68,6 +68,6 @@ jobs:
           port: 22
           script: |
             cd ~/todoapp
-            docker compose -f docker-compose.prod.yaml down
-            docker compose -f docker-compose.prod.yaml pull
-            docker compose -f docker-compose.prod.yaml up -d
+            docker compose -f docker-compose.staging.yaml down
+            docker compose -f docker-compose.staging.yaml pull
+            docker compose -f docker-compose.staging.yaml up -d
