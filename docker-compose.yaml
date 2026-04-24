@@ -2,6 +2,7 @@ services:
   mysql:
     image: mysql:lts
     container_name: mysql
+    restart: unless-stopped
     hostname: mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
@@ -22,16 +23,23 @@ services:
       - back_network
 
   api:
-    image: ghcr.io/mateja-velickovic/todoapp-backend:latest
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
     container_name: todoapp-backend
+    restart: unless-stopped
     hostname: backend
     env_file:
       - .env
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
-    ports:
-      - "3000:3000"
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_DATABASE}
+      PORT: 3000
+    expose:
+      - "3000"
     depends_on:
       mysql:
         condition: service_healthy
@@ -40,11 +48,14 @@ services:
       - back_network
 
   web:
-    image: ghcr.io/mateja-velickovic/todoapp-frontend:latest
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
     container_name: todoapp-frontend
+    restart: unless-stopped
     hostname: frontend
     ports:
-      - "5173:5173"
+      - "80:5173"
     depends_on:
       - api
     networks:
@@ -58,4 +69,3 @@ networks:
 
 volumes:
   db_data:
-    driver: local
