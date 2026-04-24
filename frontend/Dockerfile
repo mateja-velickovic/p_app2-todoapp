@@ -21,6 +21,6 @@ RUN npm run build
 
 # CMD ["nginx", "-g", "daemon off;"]
 
-EXPOSE 5173
+EXPOSE 80
 
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "5173"]
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "80"]
