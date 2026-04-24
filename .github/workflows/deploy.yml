@@ -65,6 +65,9 @@ jobs:
       - push-frontend-image
 
     steps:
+      - name: Cloning the repository
+        uses: actions/checkout@v4
+
       - name: Setup VPN and test connection
         uses: ./.github/actions/vpn
         with:
@@ -80,7 +83,7 @@ jobs:
           host: ${{ secrets.SSH_TEST_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "./docker-compose.staging.yaml" # ,./deploy/**
+          source: "./docker-compose.staging.yaml,./deploy/**"
           target: ~/todoapp/
           port: 22
 
@@ -96,3 +99,32 @@ jobs:
             docker compose -f docker-compose.staging.yaml down
             docker compose -f docker-compose.staging.yaml pull
             docker compose -f docker-compose.staging.yaml up -d
+
+  clean-images:
+    name: Clean Docker images on VM
+
+    runs-on: ubuntu-latest
+    needs:
+      - deploy-staging
+
+    steps:
+      - name: Setup VPN and test connection
+        uses: ./.github/actions/vpn
+        with:
+          host: "${{ secrets.VPN_IP }}"
+          port: "443"
+          username: "${{ secrets.VPN_USERNAME }}"
+          password: "${{ secrets.VPN_PASSWORD }}"
+          ping_host: ${{ secrets.SSH_TEST_HOST }}
+
+      - name: Running Docker images cleanup on staging server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_TEST_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: |
+            cd ~/todoapp
+            chmod +x ./deploy/scripts/clean-images.sh
+            ./deploy/scripts/clean-images.sh
