@@ -96,9 +96,9 @@ jobs:
           port: 22
           script: |
             cd ~/todoapp
-            docker compose -f docker-compose.staging.yaml down
-            docker compose -f docker-compose.staging.yaml pull
-            docker compose -f docker-compose.staging.yaml up -d
+            docker compose -f docker-compose.yaml -f docker-compose.staging.yaml down
+            docker compose -f docker-compose.yaml -f docker-compose.staging.yaml pull
+            docker compose -f docker-compose.yaml -f docker-compose.staging.yaml up -d
 
   clean-images:
     name: Clean Docker images on VM
