@@ -83,7 +83,7 @@ jobs:
           host: ${{ secrets.SSH_TEST_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "./docker-compose.staging.yaml,./deploy/**"
+          source: "./docker-compose.yaml,./docker-compose.staging.yaml,./deploy/**"
           target: ~/todoapp/
           port: 22
 
