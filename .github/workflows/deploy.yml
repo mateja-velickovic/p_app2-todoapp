@@ -108,6 +108,9 @@ jobs:
       - deploy-staging
 
     steps:
+      - name: Cloning the repository
+        uses: actions/checkout@v4
+
       - name: Setup VPN and test connection
         uses: ./.github/actions/vpn
         with:
