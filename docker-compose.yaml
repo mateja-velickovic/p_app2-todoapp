@@ -24,8 +24,8 @@ services:
 
   api:
     build:
-      context: .
-      dockerfile: ./backend/Dockerfile
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: todoapp-backend
     restart: unless-stopped
     hostname: backend
@@ -49,13 +49,13 @@ services:
 
   web:
     build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: todoapp-frontend
     restart: unless-stopped
     hostname: frontend
     ports:
-      - "5173:5173"
+      - "80:5173"
     depends_on:
       - api
     networks:
