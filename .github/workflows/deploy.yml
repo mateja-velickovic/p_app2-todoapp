@@ -15,6 +15,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    outputs:
+      short_sha: ${{ steps.meta.outputs.short_sha }}
+
     steps:
       - name: Cloning the repository
         uses: actions/checkout@v4
@@ -52,6 +55,9 @@ jobs:
     name: Build and push Docker frontend image
 
     runs-on: ubuntu-latest
+
+    outputs:
+      short_sha: ${{ steps.meta.outputs.short_sha }}
 
     steps:
       - name: Cloning the repository
@@ -128,7 +134,7 @@ jobs:
             cd ~/todoapp
             docker compose -f docker-compose.yaml -f docker-compose.staging.yaml down
             docker compose -f docker-compose.yaml -f docker-compose.staging.yaml pull
-            docker compose -f docker-compose.yaml -f docker-compose.staging.yaml up -d
+            TAG=${{ needs.push-backend-image.outputs.short_sha }} docker compose -f docker-compose.yaml -f docker-compose.staging.yaml up -d
 
   clean-images:
     name: Clean Docker images on VM

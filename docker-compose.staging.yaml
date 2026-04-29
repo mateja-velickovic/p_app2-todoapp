@@ -1,8 +1,8 @@
 services:
   api:
-    image: ghcr.io/mateja-velickovic/todoapp-backend:latest
+    image: ghcr.io/mateja-velickovic/todoapp-backend:${TAG}
     build : null
 
   web:
-    image: ghcr.io/mateja-velickovic/todoapp-frontend:latest
+    image: ghcr.io/mateja-velickovic/todoapp-frontend:${TAG}
     build : null
