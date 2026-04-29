@@ -19,6 +19,7 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.23",
     "@heroicons/vue": "^2.1.5",
+    "@sentry/vue": "^10.50.0",
     "@tiptap/extension-bold": "^2.11.5",
     "@tiptap/extension-bullet-list": "^2.11.5",
     "@tiptap/extension-link": "^2.11.5",
@@ -53,7 +54,7 @@
     "@vue/eslint-config-typescript": "^14.0.1",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",
-    "cypress": "^15.6.0",
+    "cypress": "^15.14.1",
     "eslint": "^9.12.0",
     "eslint-plugin-cypress": "^4.0.0",
     "eslint-plugin-vue": "^9.29.0",
