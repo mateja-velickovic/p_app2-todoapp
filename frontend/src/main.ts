@@ -13,8 +13,11 @@ const pinia = createPinia();
 
 Sentry.init({
   app,
-  dsn: "https://963e479f7bf5ab7e198a346e0236848c@o4511302587187200.ingest.de.sentry.io/4511302595969104",
+  dsn: "https://5e0049e4effbe663a55472c6021fdded@o4511302587187200.ingest.de.sentry.io/4511308006228048",
   sendDefaultPii: true,
+  tracesSampleRate: 1.0,
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
 });
 
 // Use the plugin to persist the store
@@ -23,6 +26,12 @@ pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
 app.use(router);
 
+// Track router navigation
+router.afterEach((to, from) => {
+  if (to.path !== from.path) {
+    Sentry.captureMessage(`Navigation: ${from.path} → ${to.path}`, 'info');
+  }
+});
+
 app.mount('#app');
 
-myUndefinedFunction();
