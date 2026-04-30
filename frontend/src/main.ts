@@ -24,3 +24,5 @@ app.use(pinia);
 app.use(router);
 
 app.mount('#app');
+
+myUndefinedFunction();
